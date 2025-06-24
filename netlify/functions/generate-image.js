@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { Buffer } = require('buffer');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
