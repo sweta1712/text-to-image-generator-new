@@ -1,14 +1,23 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Only POST requests allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { prompt } = req.body;
 
-  if (!prompt) {
-    return res.status(400).json({ error: 'Prompt is required' });
+  if (!prompt || typeof prompt !== 'string') {
+    return res.status(400).json({ error: 'Prompt is required and must be a string' });
   }
 
-  const dummyImage = 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(prompt);
-  res.status(200).json({ imageUrl: dummyImage });
+  try {
+    // Dummy image for testing
+    const fakeImageUrl = `https://placekitten.com/600/400?text=${encodeURIComponent(prompt)}`;
+
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate loading
+
+    res.status(200).json({ imageUrl: fakeImageUrl });
+  } catch (error) {
+    console.error('Error in API:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 }
