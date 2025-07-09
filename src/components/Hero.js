@@ -23,9 +23,11 @@ const Hero = () => {
         },
         body: JSON.stringify({ prompt }),
       });
+
       const data = await response.json();
       if (response.ok) {
-        setImageUrl(`data:image/jpeg;base64,${data.imageUrl}`);
+        console.log("Returned image URL:", data.imageUrl);  // ✅ Log it
+        setImageUrl(data.imageUrl); // ✅ Use direct URL, not base64
       } else {
         console.error('Error generating image:', data.error);
         alert(`Error generating image: ${data.error.message || data.error}`);
@@ -44,7 +46,7 @@ const Hero = () => {
         <span className="badge">Best text to image generator ✨</span>
         <h1>Turn text to <span className="highlight">image</span>, in seconds.</h1>
         <p>
-          Unleash your creativity with AI. Turn your imagination into visual art in seconds -
+          Unleash your creativity with AI. Turn your imagination into visual art in seconds —
           just type, and watch the magic happen.
         </p>
         <div className="input-container">
